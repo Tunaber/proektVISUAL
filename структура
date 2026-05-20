@@ -1,0 +1,40 @@
+src/
+├── main.tsx              # Точка входа: Provider(store) + Router
+├── App.tsx               # Определение маршрутов (React Router)
+├── style.css             # Глобальные стили
+├── types/index.ts        # Все TypeScript-типы (CellData, DocumentData, User и т.д.)
+├── store/
+│   ├── index.ts          # configureStore + RootState/AppDispatch
+│   ├── hooks.ts          # useAppSelector / useAppDispatch (типизированные)
+│   └── slices/
+│       ├── authSlice.ts         # Логин, регистрация, токены, logout
+│       ├── spreadsheetSlice.ts  # Ячейки, формулы, Undo/Redo, выделение, вставка
+│       ├── documentsSlice.ts    # CRUD документов (fetch, create, delete, rename)
+│       └── uiSlice.ts           # Модалки, уведомления, статус сохранения
+├── services/
+│   └── api.ts            # Mock API (localStorage), CSV/JSON экспорт/импорт
+├── utils/
+│   └── spreadsheet.ts    # Парсинг формул, вычисление, cellKey, colLabel
+├── hooks/
+│   ├── useKeyboard.ts    # Все горячие клавиши (Ctrl+S, Ctrl+Z, и т.д.)
+│   └── useAutoSave.ts    # Автосохранение с debounce 500мс
+└── components/
+    ├── Spreadsheet/
+    │   ├── Spreadsheet.tsx       # Главный компонент таблицы
+    │   ├── SpreadsheetPage.tsx   # Обёртка: загрузка документа по ID из URL
+    │   ├── Cell.tsx              # Отрисовка и редактирование одной ячейки
+    │   ├── FormulaBar.tsx        # Панель формул (показывает fx-значение)
+    │   ├── Toolbar.tsx           # Кнопки форматирования (B/I/U, цвета, выравнивание)
+    │   └── ContextMenu.tsx       # ПКМ: вставка/удаление строк/столбцов
+    ├── Dashboard/
+    │   ├── Dashboard.tsx               # Список документов с карточками
+    │   └── CreateDocumentModal.tsx      # Модалка создания нового документа
+    ├── Auth/
+    │   ├── LoginPage.tsx        # Страница входа с валидацией
+    │   └── RegisterPage.tsx     # Страница регистрации с валидацией
+    ├── Profile/
+    │   └── ProfilePage.tsx      # Профиль: имя, email, смена пароля, статистика
+    └── Layout/
+        ├── AppLayout.tsx        # Шапка + хлебные крошки + Outlet
+        ├── ProtectedRoute.tsx   # Оборачивает защищённые маршруты
+        └── NotFoundPage.tsx     # 404
