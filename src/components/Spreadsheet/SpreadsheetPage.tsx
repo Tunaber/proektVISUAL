@@ -1,7 +1,6 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { loadDocument, clearSpreadsheet } from '../../store/slices/spreadsheetSlice';
+import { useAppDispatch, useAppSelector, loadDocument, clearSpreadsheet } from '../../store';
 import { Spreadsheet } from './Spreadsheet';
 
 export function SpreadsheetPage() {
@@ -11,25 +10,11 @@ export function SpreadsheetPage() {
   const { loading, error } = useAppSelector((s) => s.spreadsheet);
 
   useEffect(() => {
-    if (documentId) {
-      dispatch(loadDocument(documentId))
-        .unwrap()
-        .catch(() => {
-          navigate('/not-found', { replace: true });
-        });
-    }
-    return () => {
-      dispatch(clearSpreadsheet());
-    };
-  }, [documentId, dispatch, navigate]);
+    if (documentId) dispatch(loadDocument(documentId)).unwrap().catch(() => navigate('/not-found', { replace: true }));
+    return () => { dispatch(clearSpreadsheet()) };
+  }, [documentId]);
 
-  if (loading) {
-    return <div style={{ padding: 40, textAlign: 'center' }}>Loading spreadsheet...</div>;
-  }
-
-  if (error) {
-    return <div style={{ padding: 40, textAlign: 'center', color: '#d32f2f' }}>{error}</div>;
-  }
-
+  if (loading) return <div style={{ padding: 40, textAlign: 'center' }}>Loading spreadsheet...</div>;
+  if (error) return <div style={{ padding: 40, textAlign: 'center', color: '#d32f2f' }}>{error}</div>;
   return <Spreadsheet />;
 }
